@@ -11,7 +11,7 @@ class Button extends Widget{
     private _fontSize: number;
     private _text_y: number;
     private _text_x: number;
-    private defaultText: string= "Button";
+    private defaultText: string= "Click me!";
     private defaultFontSize: number = 18;
     private defaultWidth: number = 80;
     private defaultHeight: number = 30;
@@ -84,34 +84,51 @@ class Button extends Widget{
     }
 
     //TODO: implement the onClick event using a callback passed as a parameter
-    onClick(/*TODO: add callback parameter*/):void{}
-
+    onClick(callback: () => void):void{
+        this._group.node.addEventListener('click', callback);
+    }
     
     //TODO: give the states something to do! Use these methods to control the visual appearance of your
     //widget
     idleupState(): void {
         throw new Error("Method not implemented.");
+        this._rect.fill('#1e88e5');
+        this._text.fill('#fff');
     }
     idledownState(): void {
         throw new Error("Method not implemented.");
+        this._rect.fill('#0d47a1');
+        this._text.fill('#fff');
     }
     pressedState(): void {
         throw new Error("Method not implemented.");
+        this._rect.fill('#1565c0');
+        this._text.fill('#e3f2fd');
     }
     hoverState(): void {
         throw new Error("Method not implemented.");
+        this._rect.fill('#42a5f5');
+        this._text.fill('#fff');
     }
     hoverPressedState(): void {
         throw new Error("Method not implemented.");
+        this._rect.fill('#0b3954');
+        this._text.fill('#fff');
     }
     pressedoutState(): void {
         throw new Error("Method not implemented.");
+        this._rect.fill('#6c757d');
+        this._text.fill('#ddd');
     }
     moveState(): void {
         throw new Error("Method not implemented.");
+        this._rect.fill('#17a2b8');
+        this._text.fill('#fff');
     }
     keyupState(keyEvent?: KeyboardEvent): void {
         throw new Error("Method not implemented.");
+        this._rect.fill('#28a745');
+        this._text.fill('#fff');
     }
 }
 
