@@ -22,7 +22,7 @@ btn.onClick(() => {
     // set delay for feedback then reset both heading abd button
     setTimeout(() => {
       lbl1.text = "Button Demo";
-      btn.setLabel("Reset!");
+      btn.setLabel("Click me!");
       btn.setState(new IdleUpWidgetState());
-    }, 1000); // 3000 ms = 3 seconds
+    }, 1000); // 1 second
   });
