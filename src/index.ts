@@ -1,4 +1,4 @@
-import {Window} from "./core/ui"
+import {IdleUpWidgetState, Window} from "./core/ui"
 import {Button} from "./widgets/button"
 import {Heading} from "./widgets/heading"
 
@@ -18,4 +18,10 @@ btn.move(12, 50)
 
 btn.onClick(() => {
     lbl1.text = "Button Clicked!";
+
+    // set delay for feedback then reset both heading abd button
+    setTimeout(() => {
+      lbl1.text = "Button Demo";
+      btn.setState(new IdleUpWidgetState());
+    }, 3000); // 3000 ms = 3 seconds
   });
