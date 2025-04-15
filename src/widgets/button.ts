@@ -85,13 +85,7 @@ class Button extends Widget{
 
     //TODO: implement the onClick event using a callback passed as a parameter
     onClick(callback: () => void):void{
-        this._group.node.addEventListener('click', () => {
-            // run provided callback
-            callback();
-
-            // reset button after click
-            this.setState(new IdleUpWidgetState());
-        })
+        this._group.node.addEventListener('click', callback); 
     }
     
     setLabel(text: string): void {
