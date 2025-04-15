@@ -117,35 +117,35 @@ class Button extends Widget{
     //TODO: give the states something to do! Use these methods to control the visual appearance of your
     //widget
     idleupState(): void {
-        this._rect.fill('#1e88e5');
+        this._rect.fill('#606C38');
         this._text.fill('#fff');
     }
     idledownState(): void {
-        this._rect.fill('#0d47a1');
+        this._rect.fill('#283618');
         this._text.fill('#fff');
     }
     pressedState(): void {
-        this._rect.fill('#1565c0');
+        this._rect.fill('#FEFAE0');
         this._text.fill('#e3f2fd');
     }
     hoverState(): void {
-        this._rect.fill('#42a5f5');
+        this._rect.fill('#DDA15E');
         this._text.fill('#fff');
     }
     hoverPressedState(): void {
-        this._rect.fill('#0b3954');
+        this._rect.fill('#BC6C25');
         this._text.fill('#fff');
     }
     pressedoutState(): void {
-        this._rect.fill('#6c757d');
+        this._rect.fill('#525F30');
         this._text.fill('#ddd');
     }
     moveState(): void {
-        this._rect.fill('#17a2b8');
+        this._rect.fill('#93987C');
         this._text.fill('#fff');
     }
     keyupState(keyEvent?: KeyboardEvent): void {
-        this._rect.fill('#28a745');
+        this._rect.fill('#EECE9F');
         this._text.fill('#fff');
     }
 }
