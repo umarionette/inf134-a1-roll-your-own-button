@@ -53,6 +53,8 @@ class Button extends Widget{
         this._rect = this._group.rect(this.width, this.height);
         this._rect.stroke("black");
         this._text = this._group.text(this._input);
+        this._rect.attr({ rx: 10, ry: 10 }); // rounded corners
+
         // Set the outer svg element 
         this.outerSvg = this._group;
         // Add a transparent rect on top of text to 
@@ -68,6 +70,7 @@ class Button extends Widget{
     override update(): void {
         if(this._text != null)
             this._text.font('size', this._fontSize);
+            this._text.font('family', 'Arial'); // change font family
             this._text.text(this._input);
             this.positionText();
 
