@@ -23,7 +23,7 @@ btn.fontSize = 14
 btn.move(12, 50)
 
 let chk = new Checkbox(w);
-chk.tabindex = 2;
+chk.tabindex = 3;
 chk.move(10, 130);
 
 // button interactions

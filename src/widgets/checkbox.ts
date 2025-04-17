@@ -1,5 +1,5 @@
 // importing local code, code we have written
-import {IdleUpWidgetState, IdleDownWidgetState, HoverWidgetState, HoverPressedWidgetState, PressedOutWidgetState, PressedWidgetState } from "../core/ui";
+import {IdleUpWidgetState, HoverWidgetState, PressedWidgetState} from "../core/ui";
 import {Window, Widget, RoleType, EventArgs} from "../core/ui";
 // importing code from SVG.js library
 import {Rect, Text} from "../core/ui";
@@ -85,8 +85,7 @@ class Checkbox extends Widget {
         this.updateVisual();
     }
 
-    idledownState(): void {
-    }
+    idledownState(): void {}
 
     pressedState(): void {
         this.setState(new PressedWidgetState());
@@ -105,8 +104,7 @@ class Checkbox extends Widget {
     }
 
     pressedoutState(): void {}
-
-    moveState(): void {}
+     moveState(): void {}
 
     keyupState(keyEvent?: KeyboardEvent): void {
         this.toggle();

@@ -129,22 +129,10 @@ class Button extends Widget{
         this._rect.fill('#DDA15E');
         this._text.fill('#fff');
     }
-    hoverPressedState(): void {
-        this._rect.fill('#BC6C25');
-        this._text.fill('#fff');
-    }
-    pressedoutState(): void {
-        this._rect.fill('#525F30');
-        this._text.fill('#000000');
-    }
-    moveState(): void {
-        this._rect.fill('#93987C');
-        this._text.fill('#fff');
-    }
-    keyupState(keyEvent?: KeyboardEvent): void {
-        this._rect.fill('#EECE9F');
-        this._text.fill('#000000');
-    }
+    hoverPressedState(): void {}
+    pressedoutState(): void {}
+    moveState(): void {}
+    keyupState(keyEvent?: KeyboardEvent): void {}
 }
 
 export {Button}
