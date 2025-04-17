@@ -11,7 +11,7 @@ class Button extends Widget{
     private _fontSize: number;
     private _text_y: number;
     private _text_x: number;
-    private defaultText: string= "Click me!";
+    private defaultText: string= "I'm a button";
     private defaultFontSize: number = 18;
     private defaultWidth: number = 80;
     private defaultHeight: number = 30;
@@ -135,7 +135,7 @@ class Button extends Widget{
     }
     pressedoutState(): void {
         this._rect.fill('#525F30');
-        this._text.fill('#ddd');
+        this._text.fill('#000000');
     }
     moveState(): void {
         this._rect.fill('#93987C');
@@ -143,7 +143,7 @@ class Button extends Widget{
     }
     keyupState(keyEvent?: KeyboardEvent): void {
         this._rect.fill('#EECE9F');
-        this._text.fill('#fff');
+        this._text.fill('#000000');
     }
 }
 

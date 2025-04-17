@@ -9,13 +9,13 @@ class Checkbox extends Widget {
     private _label: Text;
     private _checked: boolean = false;
     private _callback: ((checked: boolean) => void) | null = null;
-    private _labelText: string = "Check me!";
-    private _fontSize: number = 14;
+    private _labelText: string = "I'm a checkbox";
+    private _fontSize: number = 15;
   
     constructor(parent: Window) {
       super(parent);
-      this.width = 120;
-      this.height = 30;
+      this.width = 20;
+      this.height = 20;
       this.role = RoleType.checkbox;
       this.setState(new IdleUpWidgetState());
       this.render();
@@ -25,9 +25,10 @@ class Checkbox extends Widget {
       // set outerSvg  
       this._group = (this.parent as Window).window.group();  
       this.outerSvg = this._group;
-      this._box = this._group.rect(20, 20)
+
+      this._box = this._group.rect(this.width, this.height)
         .move(10, 5).fill("#fff")
-        .stroke({ width: 2, color: "#4A90E2" })
+        .stroke({ width: 2, color: "#606C38" })
         .radius(4);
   
       this._label = this._group.text(this._labelText)
@@ -38,14 +39,16 @@ class Checkbox extends Widget {
       // register interactions  
       this.registerEvent(this._group);
       this.update();
+      if (this._callback) this._callback(this._checked);
     }
   
+    // changes the colors of the checkbox and text when clicked
     private updateVisual() {
-      this._box.fill(this._checked ? "#4A90E2" : "#fff");
-      this._label.fill(this._checked ? "#4A90E2" : "#333");
-      this._label.font({weight: this._checked ? 'italic' : 'normal'});
+      this._box.fill(this._checked ? "#606C38" : "#fff");
+      this._label.fill(this._checked ? "#969696" : "#333");
     }
   
+    // uses callback to update visual appearance of checkbox 
     toggle() {
       this._checked = !this._checked;
       this.updateVisual();
@@ -76,38 +79,34 @@ class Checkbox extends Widget {
       return this._checked;
     }
 
-    // Widget methods
+    // widget methods
     idleupState(): void {
-
+        this.setState(new IdleUpWidgetState());
+        this.updateVisual();
     }
 
     idledownState(): void {
-        
     }
 
     pressedState(): void {
+        this.setState(new PressedWidgetState());
         this.toggle();
     }
 
-    pressReleaseState(): void {
-        
-    }
+    pressReleaseState(): void {}
 
     hoverState(): void {
-        
+        this.setState(new HoverWidgetState());
+        this._box.fill('#DDA15E');
     }
 
     hoverPressedState(): void {
-        
+        this._box.stroke({color: '#FEFAE0'});
     }
 
-    pressedoutState(): void {
-        
-    }
+    pressedoutState(): void {}
 
-    moveState(): void {
-        
-    }
+    moveState(): void {}
 
     keyupState(keyEvent?: KeyboardEvent): void {
         this.toggle();
