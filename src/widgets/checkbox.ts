@@ -85,14 +85,10 @@ class Checkbox extends Widget {
         this.updateVisual();
     }
 
-    idledownState(): void {}
-
     pressedState(): void {
         this.setState(new PressedWidgetState());
         this.toggle();
     }
-
-    pressReleaseState(): void {}
 
     hoverState(): void {
         this.setState(new HoverWidgetState());
@@ -103,12 +99,14 @@ class Checkbox extends Widget {
         this._box.stroke({color: '#FEFAE0'});
     }
 
-    pressedoutState(): void {}
-     moveState(): void {}
-
     keyupState(keyEvent?: KeyboardEvent): void {
-        this.toggle();
-    }
+      this.toggle();
   }
 
-  export {Checkbox};
+    idledownState(): void {}
+    pressReleaseState(): void {}
+    pressedoutState(): void {}
+    moveState(): void {}
+  }
+
+export {Checkbox};

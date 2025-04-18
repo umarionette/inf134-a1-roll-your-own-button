@@ -6,6 +6,7 @@ import { Circle, Text} from "../core/ui";
 
 type RadioChangeCallback = (selectedIndex: number) => void;
 
+// singular radio button
 class RadioButton extends Widget {
     private _circle: Circle;
     private _dot: Circle;
@@ -80,6 +81,7 @@ class RadioButton extends Widget {
               
     }
 
+    // updates widget state
     set checked(value: boolean) {
         this._checked = value;
         if (value) {
@@ -109,13 +111,12 @@ class RadioButton extends Widget {
         return this._index;
     }
 
+    // widget methods
     idleupState(): void {
         this._circle.fill('#ccc');
         this._circle.stroke({width: 2, color: '#333'})
         this._label.fill('#333');
     }
-    
-    idledownState(): void {}
     
     pressedState(): void {
         this._circle.fill('#606C38');
@@ -129,6 +130,7 @@ class RadioButton extends Widget {
         this._circle.stroke({ width: 2, color: '#333'});
     }
     
+    idledownState(): void {}
     hoverPressedState(): void {}
     pressedoutState(): void {}
     pressReleaseState(): void {}
@@ -138,6 +140,7 @@ class RadioButton extends Widget {
 
 export {RadioButton};
 
+// group of radio buttons
 class RadioGroup extends Widget {
     private _buttons: RadioButton[] = [];
     private _selectedIndex: number = -1;
@@ -161,6 +164,7 @@ class RadioGroup extends Widget {
         this._createButtons();
     }
 
+    // button creation
     move(x: number, y: number): void {
         this._x = x;
         this._y = y;
@@ -178,6 +182,7 @@ class RadioGroup extends Widget {
         });
     }
 
+    // interactions
     private _handleSelect(index: number): void {
         this._buttons.forEach((btn, i) => {
             btn.checked = (i === index);
@@ -206,6 +211,7 @@ class RadioGroup extends Widget {
         }
     }
 
+    // widget methods
     idleupState(): void {}
     idledownState(): void {}
     pressedState(): void {}
