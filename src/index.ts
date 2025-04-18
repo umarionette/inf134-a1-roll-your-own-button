@@ -54,5 +54,5 @@ chk.onChange((checked: boolean) => {
 
 // radio interactions
 radio.onChange((selectedIndex) => {
-  lbl3.text = "Radio Selected: Option ${String.fromCharCode(65 + selectedIndex)}";
+  lbl3.text = `Radio Selected: Option ${String.fromCharCode(65 + selectedIndex)}`;
 });

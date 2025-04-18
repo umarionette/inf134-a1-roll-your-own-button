@@ -37,12 +37,12 @@ class RadioButton extends Widget {
             .move(0, 7);
 
         this._dot = this._group.circle(8)
-        .fill("#fff")
+        .fill('#fff')
         .center(8, 15)
         .hide();
 
         this._label = this._group.text(this._labelText)
-            .font({size: this._fontSize})
+            .font({size: this._fontSize, family: 'Arial'})
             .move(24, 4);
 
         // interactions
@@ -118,7 +118,7 @@ class RadioButton extends Widget {
     idledownState(): void {}
     
     pressedState(): void {
-        this._circle.fill("#606C38");
+        this._circle.fill('#606C38');
         this._circle.stroke({width: 2, color: '#333'});
         this._dot.fill('#DDA15E').show();
         this._label.fill('#333');
