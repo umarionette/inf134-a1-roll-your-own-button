@@ -8,6 +8,8 @@ type ScrollCallback = (direction: ScrollDirection, scrollRatio: number) => void;
 class Scrollbar extends Widget {
     private _track: Rect;
     private _thumb: Rect;
+    private _x: number = 0;
+    private _y: number = 0;
     private _thumbHeight: number = 40;
     private _defaultHeight: number = 100;
     private _scrollRatio: number = 0;
@@ -25,6 +27,16 @@ class Scrollbar extends Widget {
         this.render();
     }
 
+    override move(x: number, y: number): void {
+        this._x = x;
+        this._y = y;
+        super.move(x, y);
+        if (this._group) {
+            this._group.clear();
+            this.render();
+        }
+    }
+
     render(): void {
         this._group = (this.parent as Window).window.group();
         this.outerSvg = this._group;
@@ -39,24 +51,24 @@ class Scrollbar extends Widget {
             .rect(this.width, buttonHeight)
             .fill('#aaa')
             .radius(3)
-            .move(0, 0);
+            .move(this._x, this._y);
         upGroup.text('^')
             .font({ size: 14 })
-            .center(this.width / 2, buttonHeight / 2);
+            .center(this._x + this.width / 2, this._y + buttonHeight / 2);
 
         // scroll track
         this._track = this._group
             .rect(this.width, trackHeight)
             .fill('#eee')
             .radius(10)
-            .move(0, trackY);
+            .move(this._x, this._y + trackY);
 
         // thumb
         this._thumb = this._group
             .rect(this.width, this._thumbHeight)
             .fill('#777')
             .radius(10)
-            .move(0, trackY);
+            .move(this._x, this._y + trackY);
 
         // down button + arrow
         const downGroup = this._group.group();
@@ -64,10 +76,10 @@ class Scrollbar extends Widget {
             .rect(this.width, buttonHeight)
             .fill('#aaa')
             .radius(3)
-            .move(0, this.height - buttonHeight);
+            .move(this._x, this._y + this.height - buttonHeight);
         downGroup.text('v')
             .font({ size: 14 })
-            .center(this.width / 2, this.height - buttonHeight / 2);
+            .center(this._x + this.width / 2, this._y + this.height - buttonHeight / 2);
 
         // click handlers for up/down
         this._upButton.on("click", () => {
@@ -94,7 +106,7 @@ class Scrollbar extends Widget {
             let newY = mouseY - offsetY;
             newY = Math.max(minY, Math.min(newY, maxY));
             const oldRatio = this._scrollRatio;
-            this._thumb.y(newY);
+            this._thumb.move(this._x, newY);
             this._scrollRatio = (newY - trackY) / (trackHeight - this._thumbHeight);
             this.notifyScroll(this._scrollRatio > oldRatio ? "down" : "up");
         });
@@ -109,7 +121,7 @@ class Scrollbar extends Widget {
             const { trackY, trackHeight, minY, maxY } = this.getScrollBounds();
             const newY = Math.max(minY, Math.min(clickedY - this._thumbHeight / 2, maxY));
             const oldRatio = this._scrollRatio;
-            this._thumb.y(newY);
+            this._thumb.move(this._x, newY);
             this._scrollRatio = (newY - trackY) / (trackHeight - this._thumbHeight);
             this.notifyScroll(this._scrollRatio > oldRatio ? "down" : "up");
         });
@@ -122,7 +134,7 @@ class Scrollbar extends Widget {
         const { trackY, trackHeight, minY, maxY } = this.getScrollBounds();
         let newY = (this._thumb.y() as number) + delta;
         newY = Math.max(minY, Math.min(newY, maxY));
-        this._thumb.y(newY);
+        this._thumb.move(this._x, newY);
         this._scrollRatio = (newY - trackY) / (trackHeight - this._thumbHeight);
         this.notifyScroll(direction);
     }
@@ -162,7 +174,7 @@ class Scrollbar extends Widget {
         value = Math.max(0, Math.min(1, value));
         const { trackY, trackHeight } = this.getScrollBounds();
         const newY = trackY + value * (trackHeight - this._thumbHeight);
-        this._thumb.y(newY);
+        this._thumb.move(this._x, newY);
         this._scrollRatio = value;
     }
 
@@ -172,7 +184,7 @@ class Scrollbar extends Widget {
 
     getScrollBounds() {
         const buttonHeight = this.width;
-        const trackY = buttonHeight;
+        const trackY = this._y + buttonHeight;
         const trackHeight = this.height - 2 * buttonHeight;
         const minY = trackY;
         const maxY = trackY + trackHeight - this._thumbHeight;

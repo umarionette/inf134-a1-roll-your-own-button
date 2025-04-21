@@ -29,7 +29,7 @@ let lbl4 = new Heading(w);
 lbl4.text = "Scrollbar Position:";
 lbl4.tabindex = 4;
 lbl4.fontSize = 20;
-lbl4.move(250, 50);
+lbl4.move(10, 340);
 
 let btn = new Button(w);
 btn.tabindex = 2;
@@ -44,7 +44,7 @@ let radio = new RadioGroup(w, ["I'm Option A", "I'm Option B", "I'm Option C"]);
 radio.move(10, 220);
 
 let scrollbar = new Scrollbar(w);
-scrollbar.move(250, 100);
+scrollbar.move(10, 375);
 scrollbar.setHeight(150);
 scrollbar.setThumbHeight(30);
 
