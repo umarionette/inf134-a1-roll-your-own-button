@@ -4,9 +4,11 @@ import {Heading} from "./widgets/heading"
 import {Checkbox} from "./widgets/checkbox";
 import {RadioGroup} from "./widgets/radiobutton";
 import {Scrollbar} from "./widgets/scrollbar";
+import {ProgressBar} from "./widgets/progressbar";
 
 let w = new Window(window.innerHeight-10,'100%');
 
+// headings
 let lbl1= new Heading(w);
 lbl1.text = "Button Demo";
 lbl1.tabindex = 1;
@@ -31,6 +33,13 @@ lbl4.tabindex = 4;
 lbl4.fontSize = 20;
 lbl4.move(10, 340);
 
+let lbl5 = new Heading(w);
+lbl5.text = "Progress Bar:";
+lbl5.tabindex = 5;
+lbl5.fontSize = 20;
+lbl5.move(10, 550);
+
+// widgets
 let btn = new Button(w);
 btn.tabindex = 2;
 btn.fontSize = 14
@@ -47,6 +56,11 @@ let scrollbar = new Scrollbar(w);
 scrollbar.move(10, 375);
 scrollbar.setHeight(150);
 scrollbar.setThumbHeight(30);
+
+let progressbar = new ProgressBar(w);
+progressbar.move(10, 600);
+progressbar.setWidth(300);
+progressbar.setIncrement(5);
 
 // button interactions
 btn.onClick(() => {
@@ -72,4 +86,23 @@ radio.onChange((selectedIndex) => {
 // scrollbar interactions
 scrollbar.onScroll((direction, ratio) => {
   lbl4.text = `Scroll: ${direction} (${(ratio * 100).toFixed(0)}%)`;
+});
+
+// progress bar interactions
+progressbar.onIncrement((value) => {
+  lbl5.text = `Progress Bar: ${value.toFixed(0)}%`;
+});
+
+progressbar.onStateChange((state) => {
+  console.log("ProgressBar state changed:", state);
+});
+
+// button to increment the progress bar
+let progressBtn = new Button(w);
+progressBtn.setLabel("Advance");
+progressBtn.move(320, 600);
+progressBtn.fontSize = 14;
+
+progressBtn.onClick(() => {
+  progressbar.incrementBy(progressbar.getIncrement());
 });
