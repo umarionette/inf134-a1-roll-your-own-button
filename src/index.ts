@@ -5,6 +5,7 @@ import {Checkbox} from "./widgets/checkbox";
 import {RadioGroup} from "./widgets/radiobutton";
 import {Scrollbar} from "./widgets/scrollbar";
 import {ProgressBar} from "./widgets/progressbar";
+import {ToDoList} from "./widgets/todo";
 
 let w = new Window(window.innerHeight-10,'100%');
 
@@ -39,6 +40,12 @@ lbl5.tabindex = 5;
 lbl5.fontSize = 20;
 lbl5.move(10, 550);
 
+let lbl6 = new Heading(w);
+lbl6.text = "To-Do List:";
+lbl6.tabindex = 6;
+lbl6.fontSize = 20;
+lbl6.move(10, 650);
+
 // widgets
 let btn = new Button(w);
 btn.tabindex = 2;
@@ -60,7 +67,9 @@ scrollbar.setThumbHeight(30);
 let progressbar = new ProgressBar(w);
 progressbar.move(10, 600);
 progressbar.setWidth(300);
-progressbar.setIncrement(5);
+progressbar.setIncrement(0);
+
+let todo = new ToDoList(w);
 
 // button interactions
 btn.onClick(() => {

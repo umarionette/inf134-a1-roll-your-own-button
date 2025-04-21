@@ -10,7 +10,8 @@ enum RoleType {
     checkbox = "checkbox",
     radio = "radio",
     progressbar = "progressbar",
-    timer = "timer"
+    timer = "timer",
+    todolist = "todolist"
 }
 
 interface IAccessibility {

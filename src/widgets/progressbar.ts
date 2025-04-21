@@ -49,11 +49,13 @@ class ProgressBar extends Widget {
             .move(this._x, this._y);
 
         // progress bar
-        const progressWidth = (this._value / 100) * this._width;
-        this._bar = this._group.rect(progressWidth, this._height)
+        const progressWidth = Math.round((this._value / 100) * this._width);
+        if (progressWidth > 0) { 
+            this._bar = this._group.rect(progressWidth, this._height)
             .fill('#76c7c0')
             .radius(5)
             .move(this._x, this._y);
+        }
 
         // text label
         this._label = this._group.text(`${this._value.toFixed(0)}%`)
@@ -69,7 +71,8 @@ class ProgressBar extends Widget {
     }
 
     setIncrement(value: number): void {
-        this._increment = value;
+        this._value = Math.max(0, Math.min(100, value));
+        this.render();
     }
 
     getIncrement(): number {
