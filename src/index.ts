@@ -29,7 +29,7 @@ let lbl4 = new Heading(w);
 lbl4.text = "Scrollbar Position:";
 lbl4.tabindex = 4;
 lbl4.fontSize = 20;
-lbl4.move(250, 20);
+lbl4.move(250, 50);
 
 let btn = new Button(w);
 btn.tabindex = 2;
@@ -44,10 +44,9 @@ let radio = new RadioGroup(w, ["I'm Option A", "I'm Option B", "I'm Option C"]);
 radio.move(10, 220);
 
 let scrollbar = new Scrollbar(w);
+scrollbar.move(250, 100);
 scrollbar.setHeight(150);
 scrollbar.setThumbHeight(30);
-scrollbar.move(350, 50);
-//scrollbar.scrollRatio = 1;
 
 // button interactions
 btn.onClick(() => {
@@ -72,6 +71,5 @@ radio.onChange((selectedIndex) => {
 
 // scrollbar interactions
 scrollbar.onScroll((direction, ratio) => {
-  console.log("SCROLL:", direction, ratio.toFixed(2));
   lbl4.text = `Scroll: ${direction} (${(ratio * 100).toFixed(0)}%)`;
 });

@@ -28,26 +28,28 @@ class Scrollbar extends Widget {
     render(): void {
         this._group = (this.parent as Window).window.group();
         this.outerSvg = this._group;
-        
-        const {trackY, trackHeight} = this.getScrollBounds();
 
-        // up button 
-        this._upButton = this._group
-            .rect(this.width, this.width)
+        const buttonHeight = this.width; // square buttons
+        const trackY = buttonHeight;
+        const trackHeight = this.height - 2 * buttonHeight;
+
+        // up button + arrow
+        const upGroup = this._group.group();
+        this._upButton = upGroup
+            .rect(this.width, buttonHeight)
             .fill('#aaa')
             .radius(3)
-            .move(0,0);
-
-        this._group.text('^')
-            .font({size: 14})
-            .center(this.width / 2, this.width / 2);
+            .move(0, 0);
+        upGroup.text('^')
+            .font({ size: 14 })
+            .center(this.width / 2, buttonHeight / 2);
 
         // scroll track
         this._track = this._group
             .rect(this.width, trackHeight)
             .fill('#eee')
-            .move(0, trackY)
-            .radius(10);
+            .radius(10)
+            .move(0, trackY);
 
         // thumb
         this._thumb = this._group
@@ -56,30 +58,29 @@ class Scrollbar extends Widget {
             .radius(10)
             .move(0, trackY);
 
-        // down button
-        this._downButton = this._group
-            .rect(this.width, this.width)
+        // down button + arrow
+        const downGroup = this._group.group();
+        this._downButton = downGroup
+            .rect(this.width, buttonHeight)
             .fill('#aaa')
-            .move(0, this.height - this.width)
-            .radius(3);
+            .radius(3)
+            .move(0, this.height - buttonHeight);
+        downGroup.text('v')
+            .font({ size: 14 })
+            .center(this.width / 2, this.height - buttonHeight / 2);
 
-        this._group.text('v')
-            .font({size: 14})
-            .center(this.width / 2, this.height - this.width / 2);
-
-        // up button click interaction
+        // click handlers for up/down
         this._upButton.on("click", () => {
             this.moveThumbBy(-this._scrollAmount, "up");
         });
 
-        // down button click interaction
         this._downButton.on("click", () => {
             this.moveThumbBy(this._scrollAmount, "down");
         });
 
-        // thumb drag interaction
+        // dragging
         let isDraggable = false;
-        let offsetY = 0; 
+        let offsetY = 0;
 
         this._thumb.on("mousedown", (e: MouseEvent) => {
             isDraggable = true;
@@ -92,10 +93,8 @@ class Scrollbar extends Widget {
             const { trackY, trackHeight, minY, maxY } = this.getScrollBounds();
             let newY = mouseY - offsetY;
             newY = Math.max(minY, Math.min(newY, maxY));
-
             const oldRatio = this._scrollRatio;
             this._thumb.y(newY);
-
             this._scrollRatio = (newY - trackY) / (trackHeight - this._thumbHeight);
             this.notifyScroll(this._scrollRatio > oldRatio ? "down" : "up");
         });
@@ -104,27 +103,25 @@ class Scrollbar extends Widget {
             isDraggable = false;
         });
 
-        // click on track to jump thumb
+        // jump to position on track click
         this._track.on("click", (e: MouseEvent) => {
             const clickedY = e.offsetY;
-            const oldRatio = this._scrollRatio;
             const { trackY, trackHeight, minY, maxY } = this.getScrollBounds();
             const newY = Math.max(minY, Math.min(clickedY - this._thumbHeight / 2, maxY));
-
+            const oldRatio = this._scrollRatio;
             this._thumb.y(newY);
             this._scrollRatio = (newY - trackY) / (trackHeight - this._thumbHeight);
             this.notifyScroll(this._scrollRatio > oldRatio ? "down" : "up");
-        })
+        });
 
+        // refresh position from scrollRatio
         this.scrollRatio = this._scrollRatio;
     }
 
     moveThumbBy(delta: number, direction: ScrollDirection): void {
-        const {trackY, trackHeight, minY, maxY} = this.getScrollBounds();
+        const { trackY, trackHeight, minY, maxY } = this.getScrollBounds();
         let newY = (this._thumb.y() as number) + delta;
-
         newY = Math.max(minY, Math.min(newY, maxY));
-
         this._thumb.y(newY);
         this._scrollRatio = (newY - trackY) / (trackHeight - this._thumbHeight);
         this.notifyScroll(direction);
@@ -155,7 +152,8 @@ class Scrollbar extends Widget {
     }
 
     setThumbHeight(height: number): void {
-        this._thumbHeight = Math.max(10, Math.min(this.height - 2 * this.width, height));
+        const maxThumbHeight = this.height - 2 * this.width;
+        this._thumbHeight = Math.max(10, Math.min(maxThumbHeight, height));
         if (this._thumb) this._thumb.height(this._thumbHeight);
         this.scrollRatio = this._scrollRatio;
     }
@@ -173,56 +171,54 @@ class Scrollbar extends Widget {
     }
 
     getScrollBounds() {
-        const trackY = this.width;
-        const trackHeight = this.height - 2 * this.width;
+        const buttonHeight = this.width;
+        const trackY = buttonHeight;
+        const trackHeight = this.height - 2 * buttonHeight;
         const minY = trackY;
         const maxY = trackY + trackHeight - this._thumbHeight;
-
-        return {trackY, trackHeight, minY, maxY};
+        return { trackY, trackHeight, minY, maxY };
     }
 
-    // widget methods
+    // widget state visuals
     idleupState(): void {
         this.setState(new IdleUpWidgetState());
-        this._thumb.fill("#777"); // default thumb color
+        this._thumb.fill("#777");
     }
-    
+
     pressedState(): void {
         this.setState(new PressedWidgetState());
-        this._thumb.fill("#444"); // pressed color
+        this._thumb.fill("#444");
     }
-    
+
     hoverState(): void {
         this.setState(new HoverWidgetState());
-        this._thumb.fill("#999"); // lighter on hover
+        this._thumb.fill("#999");
     }
-    
+
     hoverPressedState(): void {
         this._thumb.stroke({ color: "#FEFAE0", width: 2 });
     }
-    
+
     keyupState(keyEvent?: KeyboardEvent): void {
-        // optional: respond to up/down keys
         if (keyEvent?.key === "ArrowDown") this.moveThumbBy(this._scrollAmount, "down");
         else if (keyEvent?.key === "ArrowUp") this.moveThumbBy(-this._scrollAmount, "up");
     }
-    
+
     idledownState(): void {
-        this._thumb.fill("#555"); // optional down state
+        this._thumb.fill("#555");
     }
-    
+
     pressReleaseState(): void {
         this._thumb.stroke({ color: "none" });
     }
-    
+
     pressedoutState(): void {
-        this._thumb.stroke({ color: "#ccc" }); // e.g. after drag release
+        this._thumb.stroke({ color: "#ccc" });
     }
-    
+
     moveState(): void {
-        // optional: during mouse drag
         this._thumb.fill("#666");
     }
 }
 
-export {Scrollbar}
+export { Scrollbar };
