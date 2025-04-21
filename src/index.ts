@@ -2,7 +2,8 @@ import {IdleUpWidgetState, Window} from "./core/ui"
 import {Button} from "./widgets/button"
 import {Heading} from "./widgets/heading"
 import {Checkbox} from "./widgets/checkbox";
-import { RadioGroup } from "./widgets/radiobutton";
+import {RadioGroup} from "./widgets/radiobutton";
+import {Scrollbar} from "./widgets/scrollbar";
 
 let w = new Window(window.innerHeight-10,'100%');
 
@@ -10,7 +11,7 @@ let lbl1= new Heading(w);
 lbl1.text = "Button Demo";
 lbl1.tabindex = 1;
 lbl1.fontSize = 20;
-lbl1.move(10,20);
+lbl1.move(10, 20);
 
 let lbl2 = new Heading(w);
 lbl2.text = "Checkbox Demo";
@@ -24,6 +25,12 @@ lbl3.tabindex = 3;
 lbl3.fontSize = 20;
 lbl3.move(10, 180);
 
+let lbl4 = new Heading(w);
+lbl4.text = "Scrollbar Position:";
+lbl4.tabindex = 4;
+lbl4.fontSize = 20;
+lbl4.move(250, 20);
+
 let btn = new Button(w);
 btn.tabindex = 2;
 btn.fontSize = 14
@@ -36,11 +43,17 @@ chk.move(10, 130);
 let radio = new RadioGroup(w, ["I'm Option A", "I'm Option B", "I'm Option C"]);
 radio.move(10, 220);
 
+let scrollbar = new Scrollbar(w);
+scrollbar.setHeight(150);
+scrollbar.setThumbHeight(30);
+scrollbar.move(350, 50);
+//scrollbar.scrollRatio = 1;
+
 // button interactions
 btn.onClick(() => {
     lbl1.text = "Button Clicked!";
 
-    // set delay for feedback then reset both heading abd button
+    // set delay for feedback then reset both heading and button
     setTimeout(() => {
       lbl1.text = "Button Demo";
       btn.setState(new IdleUpWidgetState());
@@ -55,4 +68,10 @@ chk.onChange((checked: boolean) => {
 // radio interactions
 radio.onChange((selectedIndex) => {
   lbl3.text = `Radio Selected: Option ${String.fromCharCode(65 + selectedIndex)}`;
+});
+
+// scrollbar interactions
+scrollbar.onScroll((direction, ratio) => {
+  console.log("SCROLL:", direction, ratio.toFixed(2));
+  lbl4.text = `Scroll: ${direction} (${(ratio * 100).toFixed(0)}%)`;
 });
